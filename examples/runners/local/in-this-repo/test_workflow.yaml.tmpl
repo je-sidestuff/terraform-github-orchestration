@@ -1,0 +1,21 @@
+---
+
+name: Example ${example_name} SHAR Test Workflow
+
+on:
+  push:
+    branches:
+      - ${example_branch}
+
+jobs:
+  unit-tests:
+    runs-on: [self-hosted, ${example_label}]
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    steps:
+      - uses: actions/checkout@v4
+      - name: say hello
+        run: |
+          echo "Hello"
+          echo "Hello from runner with label ${example_label} in terraform-github-orchestrator repo" > /tmp/hello

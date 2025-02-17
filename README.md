@@ -1,2 +1,2 @@
-# terraform-github-orchestration
-A repository with modules and launchers for orchestrating operations on GitHub.
+# terraform-github-orchestrator
+A module repository for performing various miscellaneous operations with git repositories.
