@@ -1,5 +1,6 @@
 locals {
-  full_path_to_directory = get_path_from_repo_root()
+  # full_path_to_directory = get_path_from_repo_root()
+  full_path_to_directory = get_working_dir()
   subscription           = reverse(split("/", local.full_path_to_directory))[0]
   subscription_id        = "${subscription_id}"
 }
