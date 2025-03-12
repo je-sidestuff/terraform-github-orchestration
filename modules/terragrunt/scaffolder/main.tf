@@ -43,6 +43,13 @@ locals {
     ])
   ])
 
+  input_target_vars = {
+    for target, data in var.input_targets :
+    target => concat([
+      for varname, value in data.vars : "--var=${varname}=${value} "
+    ])
+  }
+
   maybe_backend = ""
 }
 
@@ -112,7 +119,8 @@ resource "terraform_data" "scaffolding" {
   provisioner "local-exec" {
     command = <<EOT
 cd "${var.scaffolding_root}/terragrunt/${local.resolved_scaffolding_paths[each.key]}/"
-terragrunt scaffold github.com/${each.value.repo}//${each.value.path}?ref=${each.value.branch} --var=Name=${each.key} --var=ResourceGroupName=${each.key}
+terragrunt scaffold github.com/${each.value.repo}//${each.value.path}?ref=${each.value.branch} ${local.input_target_vars[each.key]}
+cd -
 EOT
   }
 

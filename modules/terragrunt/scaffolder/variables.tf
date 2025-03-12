@@ -18,6 +18,7 @@ EOF
         path = string
         branch = optional(string, "main") # TODO In the future we'll do tags
         description = optional(string)
+        vars = optional(map(string), {})
         placement = map(string)
     })
 )
