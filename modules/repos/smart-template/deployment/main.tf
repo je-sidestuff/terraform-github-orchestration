@@ -19,7 +19,7 @@ resource "github_branch_default" "default" {
 
 resource "github_actions_secret" "actions_secrets" {
   repository      = github_repository.to_deploy.name
-  secret_name     = "GH_TOKEN"
+  secret_name     = "GH_PAT"
   plaintext_value = var.github_pat
 }
 
