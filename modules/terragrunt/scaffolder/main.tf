@@ -45,7 +45,7 @@ locals {
 
   input_target_vars = {
     for target, data in var.input_targets :
-    target => concat([
+    target => join([
       for varname, value in data.vars : "--var=${varname}=${value} "
     ])
   }
