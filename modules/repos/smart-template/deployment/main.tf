@@ -42,6 +42,10 @@ resource "github_repository_file" "init_payload" {
   commit_author       = "Terraform User"
   commit_email        = "terraform@example.com"
   overwrite_on_create = true
+
+  lifecycle {
+    ignore_changes = [content]
+  }
 }
 
 resource "github_release" "init" {
