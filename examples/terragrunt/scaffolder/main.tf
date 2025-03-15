@@ -30,33 +30,38 @@ module "scaffolding" {
       }
     }
   }
+}
 
-#   source = "../../..//modules/terragrunt/scaffolder/from-json"
+module "scaffolding_from_json" {
+  source = "../../..//modules/terragrunt/scaffolder/from-json"
   
-#   input_targets_json = <<EOF
-# {
-#   "storage_account" : {
-#     "repo": "je-sidestuff/terraform-azure-simple-modules",
-#     "path": "modules/data-stores/storage-account",
-#     "branch": "environment_deployment_support",
-#     "placement": {
-#       "region": "eastus",
-#       "env": "default",
-#       "subscription": "sandbox"
-#     }
-#   }
-# }
-# EOF
+  input_json = <<EOF
+{
+  "scaffolding_root" : "${path.root}/from-json",
+  "subscription_id" : "${var.subscription_id}",
+  "input_targets" : {
+    "storage_account" : {
+      "repo": "je-sidestuff/terraform-azure-simple-modules",
+      "path": "modules/data-stores/storage-account",
+      "branch": "environment_deployment_support",
+      "placement": {
+        "region": "eastus",
+        "env": "default",
+        "subscription": "sandbox"
+      }
+    }
+  }
+}
+EOF
 }
 
 resource "terraform_data" "cleanup" {
   # Remove the terragrunt directory on destroy
   provisioner "local-exec" {
     when    = destroy
-    command = "rm -rf ${path.root}/terragrunt"
+    command = <<EOF
+rm -rf ${path.root}/terragrunt"
+rm -rf ${path.root}/from-json/terragrunt"
+EOF
   }
-}
-
-output "scaffolding_output" {
-  value = module.scaffolding
 }

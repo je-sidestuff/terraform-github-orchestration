@@ -15,7 +15,7 @@ locals {
   # aws_region   = local.region_vars.locals.aws_region
 }
 
-# Generate an AWS provider block
+# Generate an Azure provider block
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
