@@ -19,6 +19,7 @@ EOF
         branch = optional(string, "main") # TODO In the future we'll do tags
         description = optional(string)
         vars = optional(map(string), {})
+        var_files = optional(list(string), [])
         placement = map(string)
     })
 )
@@ -48,4 +49,10 @@ variable "backend" {
   description = "This is the optional string that may be inserted in the root.hcl file for generating a backend. It may be an include or a literal string."
   type        = string
   default     = ""
+}
+
+variable "var_files" {
+  description = "The map of var files to make available to use in the terragrunt scaffold. Name of file to content string. These are necessary for multi-line content."
+  type        = map(string)
+  default     = {}
 }

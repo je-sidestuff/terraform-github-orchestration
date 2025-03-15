@@ -50,6 +50,13 @@ locals {
     ])
   }
 
+  input_target_var_files = {
+    for target, data in var.input_targets :
+    target => join(" ",[
+      for filename in data.var_files : "--var-file=${path.root}/${filename}"
+    ])
+  }
+
   maybe_backend = ""
 }
 
@@ -113,13 +120,20 @@ resource "local_file" "scaffolding_record" {
   content  = "Scaffolded by je-sidestuff/terraform-github-orchestration/<VERSION>"
 }
 
+resource "local_file" "var_file" {
+  for_each = var.var_files
+
+  filename = "${path.root}/${each.key}"
+  content  = each.value
+}
+
 resource "terraform_data" "scaffolding" {
   for_each = var.input_targets
 
   provisioner "local-exec" {
     command = <<EOT
 cd "${var.scaffolding_root}/terragrunt/${local.resolved_scaffolding_paths[each.key]}/"
-terragrunt scaffold github.com/${each.value.repo}//${each.value.path}?ref=${each.value.branch} ${local.input_target_vars[each.key]}
+terragrunt scaffold github.com/${each.value.repo}//${each.value.path}?ref=${each.value.branch} ${local.input_target_vars[each.key]} ${local.input_target_var_files[each.key]}
 cd -
 EOT
   }
