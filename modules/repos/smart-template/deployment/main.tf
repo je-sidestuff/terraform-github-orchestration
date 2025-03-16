@@ -56,6 +56,12 @@ resource "github_repository_file" "init_payload" {
   }
 }
 
+resource "time_sleep" "file_pushes_allowance_time" {
+  depends_on = [ github_repository_file.init_payload ]
+
+  create_duration = "30s"
+}
+
 resource "github_release" "init" {
   name       = "Initialize Repository"
   repository = github_repository.to_deploy.name
@@ -63,7 +69,7 @@ resource "github_release" "init" {
   draft      = false
   prerelease = false
 
-  depends_on = [github_repository_file.init_payload]
+  depends_on = [time_sleep.file_pushes_allowance_time]
 }
 
 data "external" "verify_successful_init" {
