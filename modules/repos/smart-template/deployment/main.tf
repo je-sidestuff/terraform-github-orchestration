@@ -23,6 +23,14 @@ resource "github_actions_secret" "actions_secrets" {
   plaintext_value = var.github_pat
 }
 
+resource "github_actions_secret" "custom_secrets" {
+  for_each = nonsensitive(var.custom_actions_secrets)
+
+  repository      = github_repository.to_deploy.name
+  secret_name     = each.key
+  plaintext_value = each.value
+}
+
 # We will make an update later to use the GitHub CLI and inject secrets from environment variables
 # (Keeping them out of state)
 # resource "terraform_data" "inject_secrets_from_environment" {

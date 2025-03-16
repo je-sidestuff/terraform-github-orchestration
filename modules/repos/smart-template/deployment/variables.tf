@@ -29,6 +29,13 @@ variable "template_repo_name" {
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
 
+variable "custom_actions_secrets" {
+  description = "A map of custom actions secrets to add to the smart template repo."
+  type        = map(string)
+  default     = {}
+  sensitive   = true
+}
+
 variable "default_branch" {
   description = "Default branch of the deployed repo."
   type        = string

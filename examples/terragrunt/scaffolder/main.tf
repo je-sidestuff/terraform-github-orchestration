@@ -1,6 +1,6 @@
 locals {
   naming_prefix = var.naming_prefix == "generate" ? "ex-${random_string.random.result}" : var.naming_prefix
-  resource_group_name = "${local.naming_prefix}-rg"
+  resource_group_name = "${local.naming_prefix}-sa-rg"
   storage_account_name = "${replace(local.naming_prefix, "-", "")}sa"
   storage_container_name = "rootstate"
 }
@@ -28,6 +28,12 @@ module "scaffolding" {
         "env": "default",
         "subscription": "sandbox"
       }
+      vars = {
+        "ResourceGroupName" = local.resource_group_name
+        "Name" = local.storage_account_name
+        "CreateResourceGroup" = "true"
+        "Location" = "eastus"
+      }
     }
   }
 }
@@ -48,6 +54,12 @@ module "scaffolding_from_json" {
         "region": "eastus",
         "env": "default",
         "subscription": "sandbox"
+      },
+      "vars": {
+        "ResourceGroupName": "${local.resource_group_name}",
+        "Name": "${local.storage_account_name}",
+        "CreateResourceGroup": "true",
+        "Location": "eastus"
       }
     }
   }
