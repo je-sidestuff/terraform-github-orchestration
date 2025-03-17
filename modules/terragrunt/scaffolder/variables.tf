@@ -35,16 +35,6 @@ variable "subscription_id" {
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "bootstrap_style" {
-  description = "To use this module for a direct tofu/terraform bootstrap or a terragrunt bootstrap."
-  type        = string
-  default     = "terraform"
-  validation {
-    condition     = contains(["terraform", "terragrunt"], var.bootstrap_style)
-    error_message = "Acceptable values for 'bootstrap_style' are 'terraform' and 'terragrunt'."
-  }
-}
-
 variable "backend" {
   description = "This is the optional string that may be inserted in the root.hcl file for generating a backend. It may be an include or a literal string."
   type        = string
