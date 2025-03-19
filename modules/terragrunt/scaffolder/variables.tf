@@ -19,6 +19,7 @@ EOF
         branch = optional(string, "main") # TODO In the future we'll do tags
         description = optional(string)
         vars = optional(map(string), {})
+        var_file_strings = optional(list(string), [])
         var_files = optional(list(string), [])
         placement = map(string)
     })
