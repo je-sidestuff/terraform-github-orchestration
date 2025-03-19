@@ -55,7 +55,7 @@ locals {
     target => join(" ",[
       for filename in data.var_file_strings : "--var-file=${abspath(path.root)}/${filename}"
     ],[
-      for filename in data.var_files : "--var-file=${filename}"
+      for filename in data.var_files : "--var-file=${abspath(path.root)}/${filename}"
     ])
   }
 
