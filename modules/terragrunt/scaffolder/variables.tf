@@ -41,8 +41,14 @@ variable "backend" {
   default     = ""
 }
 
-variable "var_files" {
+variable "var_file_strings" {
   description = "The map of var files to make available to use in the terragrunt scaffold. Name of file to content string. These are necessary for multi-line content."
   type        = map(string)
   default     = {}
+}
+
+variable "var_files" {
+  description = "A list of var files to make available directly from the local filesystem."
+  type        = list(string)
+  default     = []
 }

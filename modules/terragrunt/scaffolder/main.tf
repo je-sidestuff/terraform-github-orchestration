@@ -53,7 +53,9 @@ locals {
   input_target_var_files = {
     for target, data in var.input_targets :
     target => join(" ",[
-      for filename in data.var_files : "--var-file=${abspath(path.root)}/${filename}"
+      for filename in data.var_file_strings : "--var-file=${abspath(path.root)}/${filename}"
+    ],[
+      for filename in data.var_files : "--var-file=${filename}"
     ])
   }
 
@@ -121,7 +123,7 @@ resource "local_file" "scaffolding_record" {
 }
 
 resource "local_file" "var_file" {
-  for_each = var.var_files
+  for_each = var.var_file_strings
 
   filename = "${path.root}/${each.key}"
   content  = each.value

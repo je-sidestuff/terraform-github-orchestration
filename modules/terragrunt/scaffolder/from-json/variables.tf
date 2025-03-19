@@ -10,3 +10,14 @@ All variables will be taken from the top level keys of the same name.
 EOF
   type        = string
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# OPTIONAL PARAMETERS
+# These parameters have reasonable defaults.
+# ---------------------------------------------------------------------------------------------------------------------
+
+variable "var_files" {
+  description = "A list of var files to make available directly from the local filesystem."
+  type        = list(string)
+  default     = []
+}

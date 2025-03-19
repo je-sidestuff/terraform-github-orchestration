@@ -9,5 +9,7 @@ module "this" {
 
   backend = try(jsondecode(var.input_json).backend, "")
 
-  var_files = try(jsondecode(var.input_json).var_files, {})
+  var_file_strings = try(jsondecode(var.input_json).var_file_strings, {})
+
+  var_files = var.var_files
 }
