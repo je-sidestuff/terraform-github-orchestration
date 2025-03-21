@@ -17,4 +17,5 @@ module "example_smart_template_deployment" {
   init_payload_content = var.init_payload_content
   source_owner         = var.source_owner
   template_repo_name   = var.template_repo_name
+  timeout_in_seconds   = var.timeout_in_seconds
 }

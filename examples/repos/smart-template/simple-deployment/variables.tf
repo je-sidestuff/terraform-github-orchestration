@@ -40,3 +40,13 @@ variable "init_payload_content" {
   type        = string
   default     = "{\"filename\": \"INITIALIZED\"}"
 }
+
+variable "timeout_in_seconds" {
+  description = "The number of seconds to allow for repo init."
+  type        = number
+  default     = 300
+  validation {
+    condition     = var.timeout_in_seconds > 20
+    error_message = "The timeout_in_seconds must be greater than 20."
+  }
+}

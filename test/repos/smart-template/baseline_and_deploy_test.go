@@ -144,6 +144,7 @@ func configureDeploymentTerraformOptions(t *testing.T, exampleFolder string, tem
 		Vars: map[string]interface{}{
 			"template_repo_name":   templateRepoName,
 			"init_payload_content": fmt.Sprintf("{\"filename\": \"%s\"}", expectedFilename),
+			"timeout_in_seconds":   20,
 		},
 	})
 

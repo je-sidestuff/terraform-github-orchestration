@@ -79,5 +79,6 @@ data "external" "verify_successful_init" {
     repo_https_clone_url = replace(
       github_repository.to_deploy.http_clone_url, "https://", "https://${var.github_pat}@"
     )
+    timeout = var.timeout_in_seconds
   }
 } # TODO - determine success based on output of this data source
