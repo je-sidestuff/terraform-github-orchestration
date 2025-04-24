@@ -110,7 +110,7 @@ data "external" "module_scaffold_data" {
 
   query = {
     repo_full_name = each.value.repo
-    branch         = each.value.branch
+    ref            = each.value.ref
     path           = each.value.path
   }
 }
@@ -135,7 +135,7 @@ resource "terraform_data" "scaffolding" {
   provisioner "local-exec" {
     command = <<EOT
 cd "${var.scaffolding_root}/terragrunt/${local.resolved_scaffolding_paths[each.key]}/"
-terragrunt scaffold github.com/${each.value.repo}//${each.value.path}?ref=${each.value.branch} ${local.input_target_vars[each.key]} ${local.input_target_var_files[each.key]}
+terragrunt scaffold github.com/${each.value.repo}//${each.value.path}?ref=${each.value.ref} ${local.input_target_vars[each.key]} ${local.input_target_var_files[each.key]}
 cd -
 EOT
   }

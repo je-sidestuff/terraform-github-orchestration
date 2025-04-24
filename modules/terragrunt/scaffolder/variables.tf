@@ -16,7 +16,7 @@ EOF
     object({
         repo = string
         path = string
-        branch = optional(string, "main") # TODO In the future we'll do tags
+        ref = optional(string, "main")
         description = optional(string)
         vars = optional(map(string), {})
         var_file_strings = optional(list(string), [])
