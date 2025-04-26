@@ -4,7 +4,9 @@
 #              via the repo_https_clone_url payload, then periodically
 #              checks for specific tags ('v0.0.1' or 'failed') for a set duration.
 
-eval "$(jq -r '@sh "HTTPS_CLONE_URL=\(.repo_https_clone_url)"')"
+# Usage: ./verify_successful_init.sh <repo_https_clone_url> [timeout_in_seconds]
+
+eval "$(jq -r '@sh "HTTPS_CLONE_URL=\(.repo_https_clone_url) TIMEOUT=\(.timeout)"')"
 
 clean_up_and_report_failure() {
     rm -rf "$TMP_DIR"
@@ -29,7 +31,6 @@ fi
 cd "$TMP_DIR/repo" || { clean_up_and_report_failure "Could not change directory to repo."; }
 
 # Tag check loop
-TIMEOUT=120  # seconds
 INTERVAL=5   # seconds
 START_TIME=$(date +%s)
 

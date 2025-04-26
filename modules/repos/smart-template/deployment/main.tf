@@ -19,8 +19,16 @@ resource "github_branch_default" "default" {
 
 resource "github_actions_secret" "actions_secrets" {
   repository      = github_repository.to_deploy.name
-  secret_name     = "GH_TOKEN"
+  secret_name     = "GH_PAT"
   plaintext_value = var.github_pat
+}
+
+resource "github_actions_secret" "custom_secrets" {
+  for_each = nonsensitive(var.custom_actions_secrets)
+
+  repository      = github_repository.to_deploy.name
+  secret_name     = each.key
+  plaintext_value = each.value
 }
 
 # We will make an update later to use the GitHub CLI and inject secrets from environment variables
@@ -42,6 +50,16 @@ resource "github_repository_file" "init_payload" {
   commit_author       = "Terraform User"
   commit_email        = "terraform@example.com"
   overwrite_on_create = true
+
+  lifecycle {
+    ignore_changes = [content]
+  }
+}
+
+resource "time_sleep" "file_pushes_allowance_time" {
+  depends_on = [ github_repository_file.init_payload ]
+
+  create_duration = "30s"
 }
 
 resource "github_release" "init" {
@@ -51,7 +69,7 @@ resource "github_release" "init" {
   draft      = false
   prerelease = false
 
-  depends_on = [github_repository_file.init_payload]
+  depends_on = [time_sleep.file_pushes_allowance_time]
 }
 
 data "external" "verify_successful_init" {
@@ -61,5 +79,6 @@ data "external" "verify_successful_init" {
     repo_https_clone_url = replace(
       github_repository.to_deploy.http_clone_url, "https://", "https://${var.github_pat}@"
     )
+    timeout = var.timeout_in_seconds
   }
 } # TODO - determine success based on output of this data source

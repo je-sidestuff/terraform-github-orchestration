@@ -1,7 +1,7 @@
 locals {
-  all_files_except_init_workflow = [ # TODO - now that we are tag driven we can remove this
+  all_files_except_populate_templates = [
     for file in fileset("${path.module}/repo_root", "**") :
-    file if file != ".github/workflows/init.yaml"
+    file if file != ".smart-init/scripts/populate_templates.sh"
   ]
 }
 
@@ -15,8 +15,8 @@ resource "github_repository" "template_repo" {
   auto_init = true
 }
 
-resource "github_repository_file" "files_other_than_init_workflow" {
-  for_each = toset(local.all_files_except_init_workflow)
+resource "github_repository_file" "included_files_other_than_populate_templates" {
+  for_each = toset(local.all_files_except_populate_templates)
 
   repository          = github_repository.template_repo.name
   branch              = "main"
@@ -28,9 +28,8 @@ resource "github_repository_file" "files_other_than_init_workflow" {
   overwrite_on_create = true
 }
 
-# This workflow will be prevented from running to completion for a template repo,
-# But by pushing this file last we can still avoid starting many action runs.
-resource "github_repository_file" "init_workflow" {
+# This file will have content changes ignored so the implementer can create their own logic.
+resource "github_repository_file" "populate_templates" {
   repository          = github_repository.template_repo.name
   branch              = "main"
   file                = ".github/workflows/init.yaml"
@@ -39,6 +38,8 @@ resource "github_repository_file" "init_workflow" {
   commit_author       = "Terraform User"
   commit_email        = "terraform@example.com"
   overwrite_on_create = true
-
-  depends_on = [github_repository_file.files_other_than_init_workflow]
+  
+  lifecycle {
+    ignore_changes = [content]
+  }
 }

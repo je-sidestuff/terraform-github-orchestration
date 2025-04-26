@@ -29,6 +29,13 @@ variable "template_repo_name" {
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
 
+variable "custom_actions_secrets" {
+  description = "A map of custom actions secrets to add to the smart template repo."
+  type        = map(string)
+  default     = {}
+  sensitive   = true
+}
+
 variable "default_branch" {
   description = "Default branch of the deployed repo."
   type        = string
@@ -45,6 +52,16 @@ variable "init_payload_content" {
   description = "A json string uused to drive the initialization of the repo."
   type        = string
   default     = "{\"filename\": \"INITIALIZED\"}"
+}
+
+variable "timeout_in_seconds" {
+  description = "The number of seconds to allow for repo init."
+  type        = number
+  default     = 300
+  validation {
+    condition     = var.timeout_in_seconds > 19 && var.timeout_in_seconds < 3600
+    error_message = "The timeout_in_seconds must be greater than 19 and less than 3600."
+  }
 }
 
 variable "visibility" {
