@@ -5,7 +5,9 @@ terraform {
 inputs = {
 
   input_json = <<EOF
-{{ .InputJsonB64 | base64.Decode }}
+{{ .InputJsonB64 }}
 EOF
+
+  json_in_b64 = true
 
 }
