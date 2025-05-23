@@ -6,6 +6,6 @@ inputs = {
 
   input_json = "{{ .InputJsonB64 }}"
 
-  json_in_b64 = true
+  json_in_base64 = true
 
 }
