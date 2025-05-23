@@ -1,0 +1,4 @@
+variables:
+  - name: InputJsonB64
+    description: The json input used to drive the module
+    type: string
