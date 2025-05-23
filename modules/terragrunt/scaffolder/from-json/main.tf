@@ -1,5 +1,5 @@
 locals {
-  input_json = var.json_in_base64 ? base64encode(var.input_json) : var.input_json
+  input_json = var.json_in_base64 ? base64decode(var.input_json) : var.input_json
 }
 
 module "this" {
