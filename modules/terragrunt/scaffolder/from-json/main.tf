@@ -12,8 +12,6 @@ module "this" {
 
   scaffolding_root = jsondecode(local.input_json).scaffolding_root
 
-  backend = try(jsondecode(local.input_json).backend, "")
-
   var_file_strings = try(jsondecode(local.input_json).var_file_strings, {})
 
   var_files = var.var_files

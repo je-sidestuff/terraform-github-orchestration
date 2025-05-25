@@ -36,11 +36,17 @@ variable "subscription_id" {
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "backend" {
-  description = "This is the optional string that may be inserted in the root.hcl file for generating a backend. It may be an include or a literal string."
-  type        = string
-  default     = ""
-}
+# variable "backend_generators" { -- coming soon
+#   description = "This map of strings maps filenames to generator file content to be placed in _envcommon/backends/"
+#   type        = map(string)
+#   default     = {}
+# }
+
+# variable "provider_generators" { -- coming soon
+#   description = "This map of strings maps filenames to generator file content to be placed in _envcommon/providers/"
+#   type        = map(string)
+#   default     = {}
+# }
 
 variable "var_file_strings" {
   description = "The map of var files to make available to use in the terragrunt scaffold. Name of file to content string. These are necessary for multi-line vars."
