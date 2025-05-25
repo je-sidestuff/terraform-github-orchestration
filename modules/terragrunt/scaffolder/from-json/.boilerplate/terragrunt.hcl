@@ -9,3 +9,5 @@ inputs = {
   json_in_base64 = true
 
 }
+
+prevent_destroy = true
