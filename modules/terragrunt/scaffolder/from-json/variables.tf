@@ -29,3 +29,15 @@ variable "var_files" {
   type        = list(string)
   default     = []
 }
+
+variable "subscription_id" {
+  description = "An optional input for the Azure subscription. Will be taken from the input json if not provided."
+  type        = string
+  default     = null
+}
+
+variable "scaffolding_root" {
+  description = "An optional input for the scaffolding root. Will be taken from the input json if not provided."
+  type        = string
+  default     = null
+}
