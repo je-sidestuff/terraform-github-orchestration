@@ -27,7 +27,7 @@ EOF
 }
 
 variable "subscription_id" {
-  description = "A temporary subscription ID - to be generalized and aonomized next increment"
+  description = "A temporary subscription ID - to be generalized and anonymized next increment"
   type        = string
 }
 
@@ -36,17 +36,25 @@ variable "subscription_id" {
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
 
-# variable "backend_generators" { -- coming soon
-#   description = "This map of strings maps filenames to generator file content to be placed in _envcommon/backends/"
-#   type        = map(string)
-#   default     = {}
-# }
+variable "backend_generators" {
+  description = "Backend name to backend type and args."
+  type        = map(object({
+    backend_type    = string
+    backend_subtype = optional(string)
+    arguments       = map(string)
+  }))
+  default     = {}
+}
 
-# variable "provider_generators" { -- coming soon
-#   description = "This map of strings maps filenames to generator file content to be placed in _envcommon/providers/"
-#   type        = map(string)
-#   default     = {}
-# }
+variable "provider_generators" {
+  description = "Provider name to provider type and args. The provider_type is in the format "
+  type        = map(object({
+    provider_type    = string
+    provider_subtype = optional(string)
+    arguments        = map(string)
+  }))
+  default     = {}
+}
 
 variable "var_file_strings" {
   description = "The map of var files to make available to use in the terragrunt scaffold. Name of file to content string. These are necessary for multi-line vars."

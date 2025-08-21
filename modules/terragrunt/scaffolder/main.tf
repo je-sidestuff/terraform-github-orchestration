@@ -60,11 +60,13 @@ locals {
   }
 
   maybe_backend = ""
+  maybe_provider = ""
 }
 
 resource "local_file" "root_hcl" {
   content = templatefile("${path.module}/root.hcl.tmpl", {
     "maybe_backend"   = local.maybe_backend
+    "maybe_provider"  = local.maybe_provider
     "subscription_id" = var.subscription_id
   })
   filename = "${var.scaffolding_root}/terragrunt/root.hcl"
