@@ -27,7 +27,7 @@ EOF
 }
 
 variable "subscription_id" {
-  description = "A temporary subscription ID - to be generalized and aonomized next increment"
+  description = "A temporary subscription ID - to be generalized and anonymized next increment"
   type        = string
 }
 
@@ -36,14 +36,28 @@ variable "subscription_id" {
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "backend" {
-  description = "This is the optional string that may be inserted in the root.hcl file for generating a backend. It may be an include or a literal string."
-  type        = string
-  default     = ""
+variable "backend_generators" {
+  description = "Backend name to backend type and args."
+  type        = map(object({
+    backend_type    = string
+    backend_subtype = optional(string)
+    arguments       = map(string)
+  }))
+  default     = {}
+}
+
+variable "provider_generators" {
+  description = "Provider name to provider type and args. The provider_type is in the format "
+  type        = map(object({
+    provider_type    = string
+    provider_subtype = optional(string)
+    arguments        = map(string)
+  }))
+  default     = {}
 }
 
 variable "var_file_strings" {
-  description = "The map of var files to make available to use in the terragrunt scaffold. Name of file to content string. These are necessary for multi-line content."
+  description = "The map of var files to make available to use in the terragrunt scaffold. Name of file to content string. These are necessary for multi-line vars."
   type        = map(string)
   default     = {}
 }

@@ -58,14 +58,13 @@ locals {
       for filename in data.var_files : "--var-file=${abspath(path.root)}/${filename}"
     ])
   }
-
-  maybe_backend = ""
 }
 
 resource "local_file" "root_hcl" {
   content = templatefile("${path.module}/root.hcl.tmpl", {
-    "maybe_backend"   = local.maybe_backend
-    "subscription_id" = var.subscription_id
+    "maybe_backend"   = local.backend_generator_content
+    "maybe_provider"  = local.provider_generator_content
+    "subscription_id" = var.subscription_id # This should be removed soon
   })
   filename = "${var.scaffolding_root}/terragrunt/root.hcl"
 }
