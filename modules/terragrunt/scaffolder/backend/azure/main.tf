@@ -18,6 +18,7 @@ terraform {
 }
 EOF
 }
+
 EOT
 
     user = var.subtype != "user" ? "" : <<EOT
@@ -35,6 +36,7 @@ terraform {
 }
 EOF
 }
+
 EOT
   }
 }

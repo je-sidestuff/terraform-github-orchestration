@@ -10,7 +10,11 @@ locals {
 module "this" {
   source = "../"
 
+  backend_generators = try(jsondecode(local.input_json).backend_generators, {})
+
   input_targets = jsondecode(local.input_json).input_targets
+
+  provider_generators = try(jsondecode(local.input_json).provider_generators, {})
 
   subscription_id = local.subscription_id
 

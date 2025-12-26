@@ -32,6 +32,7 @@ provider "azurerm" {
 }
 EOF
 }
+
 EOT
   }
 }
