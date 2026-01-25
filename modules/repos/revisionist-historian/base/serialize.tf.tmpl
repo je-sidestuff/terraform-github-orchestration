@@ -1,0 +1,54 @@
+locals {
+  frame_data = {
+    for frame_idx in range(${number_of_frames}) :
+      "$${frame_idx + 1}" => yamldecode(file("$${path.module}/../frames/$${frame_idx + 1}/frame.yaml"))
+  }
+}
+
+# After we have created the repo through TF we obtain a local copy to work with
+resource "terraform_data" "prepare_repo" {
+  provisioner "local-exec" {
+    command = "$${path.module}/manage_repo.sh > /tmp/loglog.txt 2>&1"
+
+    environment = {
+      ACTION               = "create"
+      RANDOM_SUFFIX        = local.random_result
+      REPO_HTTPS_CLONE_URL = replace(
+      github_repository.narrative_repo.http_clone_url, "https://", "https://$${var.github_pat}@"
+      )
+    }
+  }
+
+  depends_on = [ github_repository_file.readme ]
+}
+
+# After uploading the README we use a terraform_data to upload the full frames
+%{ for frame_idx in range(number_of_frames) ~}
+resource "terraform_data" "apply_frame_${frame_idx + 1}" {
+  provisioner "local-exec" {
+    command = "$${path.module}/apply_frame.sh >> /tmp/loglog.txt 2>&1"
+
+    environment = {
+      FRAME_DIR      = abspath("$${path.module}/../frames/${frame_idx + 1}/repo_root")
+      RANDOM_SUFFIX  = local.random_result
+      COMMIT_MESSAGE = local.frame_data["${frame_idx + 1}"].commit
+      TAG            = local.frame_data["${frame_idx + 1}"].tag
+    }
+  }
+
+  depends_on = [ %{ if frame_idx == 0 }terraform_data.prepare_repo %{ else ~} terraform_data.apply_frame_${frame_idx} %{ endif ~} ]
+}
+%{ endfor ~}
+
+resource "terraform_data" "clean_up_repo" {
+  provisioner "local-exec" {
+    command = "$${path.module}/manage_repo.sh >> /tmp/loglog.txt 2>&1"
+
+    environment = {
+      ACTION               = "destroy"
+      RANDOM_SUFFIX        = local.random_result
+    }
+  }
+
+  depends_on = [ terraform_data.apply_frame_${number_of_frames} ]
+}
