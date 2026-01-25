@@ -15,19 +15,6 @@ locals {
   # aws_region   = local.region_vars.locals.aws_region
 }
 
-# Generate an Azure provider block
-generate "provider" {
-  path      = "provider.tf"
-  if_exists = "overwrite"
-  contents  = <<EOF
-provider "azurerm" {
-  subscription_id                 = "${subscription_id}"
-  resource_provider_registrations = "all"
-  features {}
-}
-EOF
-}
-
 ${maybe_provider}
 
 ${maybe_backend}

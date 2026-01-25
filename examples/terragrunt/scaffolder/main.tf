@@ -18,6 +18,30 @@ module "scaffolding" {
 
   subscription_id = var.subscription_id
 
+  backend_generators = {
+    "azurerm" = {
+      backend_type    = "azure"
+      backend_subtype = "managed_service_identity"
+      arguments = {
+        "resource_group_name" = local.resource_group_name
+        "storage_account_name" = local.storage_account_name
+        "container_name" = local.storage_container_name
+      }
+    }
+  }
+
+  provider_generators = {
+    "azurerm" = {
+      provider_type    = "azure"
+      provider_subtype = "managed_service_identity"
+      arguments = {
+        "client_id" = "client_id" # TODO - replace with real values
+        "tenant_id" = "tenant_id"
+        "subscription_id" = "subscription_id"
+      }
+    }
+  }
+
   input_targets = {
     storage_account = {
       repo = "je-sidestuff/terraform-azure-simple-modules"
