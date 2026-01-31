@@ -4,7 +4,7 @@ locals {
     managed_service_identity = var.subtype != "managed_service_identity" ? "" : <<EOT
 generate "backend" {
   path      = "backend.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "overwrite"
   contents = <<EOF
 terraform {
   backend "azurerm" {
@@ -24,7 +24,7 @@ EOT
     user = var.subtype != "user" ? "" : <<EOT
 generate "backend" {
   path      = "backend.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "overwrite"
   contents = <<EOF
 terraform {
   backend "azurerm" {
