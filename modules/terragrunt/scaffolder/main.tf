@@ -69,6 +69,13 @@ resource "local_file" "root_hcl" {
   filename = "${var.scaffolding_root}/terragrunt/root.hcl"
 }
 
+resource "local_file" "providergen_hcl" {
+  content = templatefile("${path.module}/providergen.hcl.tmpl", {
+    "maybe_provider"  = local.provider_generator_content
+  })
+  filename = "${var.scaffolding_root}/terragrunt/providergen.hcl"
+}
+
 resource "local_file" "common_hcl" {
   content = <<EOF
 locals {

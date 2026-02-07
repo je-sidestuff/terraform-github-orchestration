@@ -41,3 +41,28 @@ variable "scaffolding_root" {
   type        = string
   default     = null
 }
+
+#
+# These variables are a sign that we should collapse the 'from json' into an
+# additional input to the main module rather than having a second module.
+#
+
+variable "backend_generators" {
+  description = "Backend name to backend type and args."
+  type        = map(object({
+    backend_type    = string
+    backend_subtype = optional(string)
+    arguments       = map(string)
+  }))
+  default     = {}
+}
+
+variable "provider_generators" {
+  description = "Provider name to provider type and args. The provider_type is in the format "
+  type        = map(object({
+    provider_type    = string
+    provider_subtype = optional(string)
+    arguments        = map(string)
+  }))
+  default     = {}
+}

@@ -3,7 +3,7 @@ locals {
   content = {
     managed_service_identity = var.subtype != "managed_service_identity" ? "" : <<EOT
 generate "provider" {
-  path      = "provider.tf"
+  path      = "providers.tf"
   if_exists = "overwrite"
   contents  = <<EOF
 provider "azurerm" {
@@ -22,7 +22,7 @@ EOT
 
     user = var.subtype != "user" ? "" : <<EOT
 generate "provider" {
-  path      = "provider.tf"
+  path      = "providers.tf"
   if_exists = "overwrite"
   contents  = <<EOF
 provider "azurerm" {
