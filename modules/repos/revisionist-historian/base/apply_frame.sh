@@ -23,7 +23,9 @@ ls "$FRAME_DIR"
 mv .git ../.git
 rm -rf ./*
 mv ../.git .git
+shopt -s dotglob
 cp -r "$FRAME_DIR"/* .
+shopt -u dotglob
 if [ $? -ne 0 ]; then
   clean_up_and_report_failure "Failed to copy frame directory"
 fi
