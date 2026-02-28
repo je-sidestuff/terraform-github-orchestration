@@ -12,6 +12,12 @@ resource "github_repository" "narrative_repo" {
   auto_init = true
 }
 
+resource "time_sleep" "wait_for_repo" {
+  depends_on = [github_repository.narrative_repo]
+
+  create_duration = "5s"
+}
+
 # This file will have content changes ignored so the implementer can create their own logic.
 resource "github_repository_file" "readme" {
   repository          = github_repository.narrative_repo.name
@@ -22,6 +28,8 @@ resource "github_repository_file" "readme" {
   commit_author       = "Terraform User"
   commit_email        = "terraform@example.com"
   overwrite_on_create = true
+
+  depends_on = [time_sleep.wait_for_repo]
 }
 
 resource "random_string" "random" {
