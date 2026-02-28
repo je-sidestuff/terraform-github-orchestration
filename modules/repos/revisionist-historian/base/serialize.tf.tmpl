@@ -71,5 +71,5 @@ resource "terraform_data" "clean_up_repo" {
     }
   }
 
-  depends_on = [ terraform_data.apply_head ]
+  depends_on = [ terraform_data.apply_head : terraform_data.apply_frame_${number_of_frames} ]
 }
