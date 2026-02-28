@@ -1,6 +1,6 @@
 locals {
-  name_prefix           = var.name == "generate" ? "ex-${random_string.random.result}" : var.name
-  example_template_repo = "${local.name_prefix}-template"
+  name_prefix               = var.name == "generate" ? "ex-${random_string.random.result}" : var.name
+  example_presentation_repo = "${local.name_prefix}-presentation"
 }
 
 resource "random_string" "random" {
@@ -11,4 +11,6 @@ resource "random_string" "random" {
 
 module "narrative_repo" {
   source = "../../..//modules/repos/revisionist-historian"
+
+  name = local.example_presentation_repo
 }

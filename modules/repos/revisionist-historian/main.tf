@@ -1,9 +1,11 @@
 locals {
   files_to_copy = fileset("${path.module}/base", "**")
 
-  frame_manifests = fileset("${path.root}/frames", "*/frame.yaml")
+  frame_manifests = fileset("${path.root}/frames", "[0-9]*/frame.yaml")
 
   number_of_frames = length(local.frame_manifests)
+
+  head_exists = fileexists("${path.root}/head/frame.yaml")
 }
 
 resource "local_file" "direct" {
@@ -26,6 +28,8 @@ resource "local_file" "templated" {
     "${path.module}/base/${each.value}",
       {
         number_of_frames = local.number_of_frames
+        name             = var.name
+        head_exists      = local.head_exists
       }
     )
   filename = "${path.root}/realized-terraform/${substr(each.value, 0, length(each.value) - 5)}"

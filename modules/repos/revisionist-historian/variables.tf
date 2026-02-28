@@ -10,4 +10,8 @@
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
 
-# Nope!
+variable "name" {
+  description = "The name of the repo to create."
+  type        = string
+  default     = "the-presentation-surface"
+}

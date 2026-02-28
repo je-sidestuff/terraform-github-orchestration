@@ -15,9 +15,9 @@ variable "github_pat" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 variable "name" {
-  description = "The name oh the repo to create."
+  description = "The name of the repo to create."
   type        = string
-  default     = "the-selector-pattern"
+  default     = "the-revisionist-chronicle"
 }
 
 variable "visibility" {
@@ -33,5 +33,5 @@ variable "visibility" {
 variable "description" {
   description = "Description of the repo."
   type        = string
-  default     = "A respository illustrating the selector pattern for Infrastructure as Code."
+  default     = "A repository demonstrating history rewriting patterns for Infrastructure as Code."
 }

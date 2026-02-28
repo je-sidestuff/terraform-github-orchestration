@@ -24,7 +24,16 @@ mv .git ../.git
 rm -rf ./*
 mv ../.git .git
 shopt -s dotglob
+
+# Apply common baseline first (if it exists)
+if [ -n "$COMMON_DIR" ] && [ -d "$COMMON_DIR" ]; then
+  echo "Applying common baseline from $COMMON_DIR"
+  cp -r "$COMMON_DIR"/* . 2>/dev/null || true
+fi
+
+# Apply frame-specific content (overwrites common where conflicts exist)
 cp -r "$FRAME_DIR"/* .
+
 shopt -u dotglob
 if [ $? -ne 0 ]; then
   clean_up_and_report_failure "Failed to copy frame directory"
