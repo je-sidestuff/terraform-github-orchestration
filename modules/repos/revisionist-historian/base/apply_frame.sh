@@ -16,6 +16,8 @@ clean_up_and_report_failure() {
 
 # Change directory to the cloned repository
 cd "$TMP_DIR/repo" || { clean_up_and_report_failure "Could not change directory to repo."; }
+tree
+git status
 
 # Copy the frame directory into the cloned repository
 echo "Copy from $FRAME_DIR"

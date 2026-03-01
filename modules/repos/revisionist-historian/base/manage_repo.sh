@@ -24,6 +24,12 @@ if [ "$ACTION" == "create" ]; then
 
   # Clone the repository
   git clone "$REPO_HTTPS_CLONE_URL" "$TMP_DIR/repo"
+
+  # Examine the repository
+  cd "$TMP_DIR/repo"
+  tree
+  git status
+
   if [ $? -ne 0 ]; then
     clean_up_and_report_failure "Failed to clone repository"
   fi
